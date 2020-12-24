@@ -1,60 +1,26 @@
 import 'package:flutter/material.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 
 void main() {
   runApp(MaterialApp(
     title: 'Navigation Basics',
-    home: BottomNavigationBarCustom(),
+    home: Home(),
   ));
 }
 
-class FirstRoute extends StatelessWidget {
+class Home extends StatefulWidget {
   @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        title: Text('First Route'),
-      ),
-      body: Center(
-        child: ElevatedButton(
-          child: Text('Open route'),
-          onPressed: () {
-            Navigator.push(
-              context,
-              MaterialPageRoute(builder: (context) => SecondRoute()),
-            );
-          },
-        ),
-      ),
-    );
-  }
+  _HomeState createState() => _HomeState();
 }
 
-class SecondRoute extends StatelessWidget {
-  @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        title: Text("Second Route"),
-      ),
-      body: Center(
-        child: ElevatedButton(
-          onPressed: () {
-            Navigator.pop(context);
-          },
-          child: Text('Go back!'),
-        ),
-      ),
-    );
-  }
-}
-
-class _BottomNavigationBarCustomState extends State<BottomNavigationBarCustom> {
+class _HomeState extends State<Home> {
   int _selectedIndex = 0;
+
   static const TextStyle optionStyle =
       TextStyle(fontSize: 30, fontWeight: FontWeight.bold);
   static const List<Widget> _widgetOptions = <Widget>[
-    Center(    
-      child: Text(
+    Center(
+        child: Text(
       'AccountBook Home 😊',
       style: optionStyle,
     )),
@@ -77,11 +43,43 @@ class _BottomNavigationBarCustomState extends State<BottomNavigationBarCustom> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: const Text('AccountBook'),
-      ),
+      appBar: CustomAppBar(),
+      drawer: Drawer(
+          child: ListView(padding: EdgeInsets.zero, children: <Widget>[
+        DrawerHeader(
+          child: Center(
+            child: Text('Hello there!'),
+          ),
+          decoration: BoxDecoration(
+            color: Colors.blue,
+          ),
+          margin: EdgeInsets.zero,
+        ),
+        ListTile(
+          title: Center(
+            child: Text('Update your app'),
+          ),
+          onTap: () {
+            Navigator.pop(context);
+          },
+        ),
+      ])),
       body: Center(
         child: _widgetOptions.elementAt(_selectedIndex),
+      ),
+      floatingActionButton: FloatingActionButton.extended(
+        onPressed: () {
+          Fluttertoast.showToast(
+              msg: "Load contact feature coming soon!!",
+              toastLength: Toast.LENGTH_SHORT,
+              gravity: ToastGravity.CENTER,
+              timeInSecForIosWeb: 1,
+              // backgroundColor: Colors.red,
+              textColor: Colors.white,
+              fontSize: 12.0);
+        },
+        icon: Icon(Icons.add_ic_call_rounded),
+        label: Text("Add members"),
       ),
       bottomNavigationBar: BottomNavigationBar(
         items: const <BottomNavigationBarItem>[
@@ -106,8 +104,53 @@ class _BottomNavigationBarCustomState extends State<BottomNavigationBarCustom> {
   }
 }
 
-class BottomNavigationBarCustom extends StatefulWidget {
+class _CustomAppBarState extends State<CustomAppBar> {
+  bool _isFavorited = true;
+
+  void _toggleFavoriteColor() {
+    setState(() {
+      // TOGGLE THE STATE THAT'S IT
+      _isFavorited = !_isFavorited;
+    });
+
+    Fluttertoast.showToast(
+        msg: _isFavorited
+            ? "Thanks for the love😘"
+            : "Mc dhokha diya bewafa nikla😠",
+        toastLength: Toast.LENGTH_SHORT,
+        gravity: ToastGravity.CENTER,
+        timeInSecForIosWeb: 1,
+        // backgroundColor: Colors.red,
+        textColor: Colors.white,
+        fontSize: 12.0);
+  }
+
   @override
-  _BottomNavigationBarCustomState createState() =>
-      _BottomNavigationBarCustomState();
+  Widget build(BuildContext context) {
+    return AppBar(
+      title: Text('AccountBook'),
+      actions: [
+        IconButton(
+            icon: Icon(Icons.favorite),
+            color: _isFavorited ? Colors.red[500] : Colors.black,
+            onPressed: _toggleFavoriteColor),
+        Padding(
+          padding: EdgeInsets.symmetric(horizontal: 16),
+          child: Icon(Icons.search),
+        ),
+        Icon(Icons.more_vert),
+      ],
+      backgroundColor: Colors.blue,
+    );
+    // body: Container(),
+    // );
+  }
+}
+
+class CustomAppBar extends StatefulWidget with PreferredSizeWidget {
+  @override
+  _CustomAppBarState createState() => _CustomAppBarState();
+
+  @override
+  Size get preferredSize => Size.fromHeight(kToolbarHeight);
 }
