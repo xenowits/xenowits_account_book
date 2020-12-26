@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
+import 'dart:developer' as developer;
 
 void main() {
   runApp(MaterialApp(
@@ -11,6 +12,52 @@ void main() {
 class Home extends StatefulWidget {
   @override
   _HomeState createState() => _HomeState();
+}
+
+class GetMoneyComponent extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      margin: EdgeInsets.all(20),
+      width: MediaQuery.of(context).size.width * 0.40,
+      child: Column(
+        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+        children: [
+          Text(
+            "You get X \u20B9",
+            style: TextStyle(color: Colors.green),
+          )
+        ],
+      ),
+      decoration: BoxDecoration(
+        color: Colors.white,
+        borderRadius: BorderRadius.circular(10),
+      ),
+    );
+  }
+}
+
+class GiveMoneyComponent extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      margin: EdgeInsets.all(20),
+      width: MediaQuery.of(context).size.width * 0.40,
+      child: Column(
+        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+        children: [
+          Text(
+            "You give Y \u20B9",
+            style: TextStyle(color: Colors.red),
+          )
+        ],
+      ),
+      decoration: BoxDecoration(
+        color: Colors.white,
+        borderRadius: BorderRadius.circular(10),
+      ),
+    );
+  }
 }
 
 class _HomeState extends State<Home> {
@@ -34,7 +81,7 @@ class _HomeState extends State<Home> {
     ),
   ];
 
-  void _onItemTapped(int index) {
+  void _onItemTapped(int index) async {
     setState(() {
       _selectedIndex = index;
     });
@@ -45,7 +92,7 @@ class _HomeState extends State<Home> {
     return Scaffold(
       appBar: CustomAppBar(),
       drawer: Drawer(
-          child: ListView(padding: EdgeInsets.zero, children: <Widget>[
+        child: ListView(padding: EdgeInsets.zero, children: <Widget>[
         DrawerHeader(
           child: Center(
             child: Text('Hello there!'),
@@ -64,8 +111,20 @@ class _HomeState extends State<Home> {
           },
         ),
       ])),
-      body: Center(
-        child: _widgetOptions.elementAt(_selectedIndex),
+      // body: Center(
+      //   child: _widgetOptions.elementAt(_selectedIndex),
+      // ),
+      body: Container(
+        color: Colors.blue,
+        height: MediaQuery.of(context).size.height * 0.35,
+        child: Row(
+          children: [
+            Row(
+              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+              children: [GetMoneyComponent(), GiveMoneyComponent()],
+            ),
+          ],
+        ),
       ),
       floatingActionButton: FloatingActionButton.extended(
         onPressed: () {

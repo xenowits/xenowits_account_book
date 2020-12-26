@@ -24,6 +24,7 @@ dependencies:
   flutter:
     sdk: flutter
   fluttertoast:  ^7.1.6
+  contacts_service: ^0.4.6
   
 dev_dependencies:
   flutter_test:
