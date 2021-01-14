@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
+import "contacts.dart";
 import 'dart:developer' as developer;
 
 void main() {
@@ -82,26 +83,29 @@ class _HomeState extends State<Home> {
   ];
 
   void _onItemTapped(int index) async {
+    getContacts();
     setState(() {
       _selectedIndex = index;
     });
   }
+
+  final _drawerHeader = DrawerHeader(
+    child: Center(
+      child: Text('Hello there!'),
+    ),
+    decoration: BoxDecoration(
+      color: Colors.blue,
+    ),
+    margin: EdgeInsets.zero,
+  );
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: CustomAppBar(),
       drawer: Drawer(
-        child: ListView(padding: EdgeInsets.zero, children: <Widget>[
-        DrawerHeader(
-          child: Center(
-            child: Text('Hello there!'),
-          ),
-          decoration: BoxDecoration(
-            color: Colors.blue,
-          ),
-          margin: EdgeInsets.zero,
-        ),
+          child: ListView(padding: EdgeInsets.zero, children: <Widget>[
+        _drawerHeader,
         ListTile(
           title: Center(
             child: Text('Update your app'),
@@ -121,7 +125,7 @@ class _HomeState extends State<Home> {
           children: [
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-              children: [GetMoneyComponent(), GiveMoneyComponent()],
+              children: [GetMoneyComponent(), Divider(), GiveMoneyComponent()],
             ),
           ],
         ),
@@ -175,7 +179,7 @@ class _CustomAppBarState extends State<CustomAppBar> {
     Fluttertoast.showToast(
         msg: _isFavorited
             ? "Thanks for the love😘"
-            : "Mc dhokha diya bewafa nikla😠",
+            : "Dhokha diya bewafa nikla😠",
         toastLength: Toast.LENGTH_SHORT,
         gravity: ToastGravity.CENTER,
         timeInSecForIosWeb: 1,
